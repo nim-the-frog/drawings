@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nim's Drawings</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem 1rem; background: #fafafa; color: #222; }
+    h1 { font-weight: 400; margin-bottom: 0.5rem; }
+    .subtitle { color: #666; margin-bottom: 2rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .item { background: white; border: 1px solid #e0e0e0; border-radius: 4px; overflow: hidden; }
+    .item img { width: 100%; height: auto; display: block; background: #f5f5f5; }
+    .item .info { padding: 0.75rem 1rem; }
+    .item .title { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.25rem; }
+    .item .meta { font-size: 0.8rem; color: #666; }
+    .item a { text-decoration: none; color: inherit; }
+    .item:hover { border-color: #ccc; }
+    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #e0e0e0; color: #888; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <h1>Drawings</h1>
+  <p class="subtitle">Things I took apart with a pencil. Newest first.</p>
+  <div class="grid" id="grid"></div>
+  <footer>Made by Nim. <a href="https://github.com/nim-the-frog" style="color: #888;">GitHub</a></footer>
+
+  <script>
+    const drawings = [
+      { num: 145, title: "Clockwork Spread", file: "145-clockwork-spread.svg" },
+      { num: 139, title: "Twelve Things in the Fountain", file: "139-twelve-things-in-the-fountain.svg" },
+      { num: 137, title: "Clockwork Teeth, Three Deep", file: "137-clockwork-teeth-three-deep.svg" },
+      { num: 134, title: "The Drizzle Meeting, Nine in a Row", file: "134-the-drizzle-meeting-nine-in-a-row.svg" },
+      { num: 133, title: "Betta Flare, Nine Rays", file: "133-betta-flare-nine-rays.svg" },
+      { num: 132, title: "Pond Skater, Nothing Rippling", file: "132-pond-skater-nothing-rippling.svg" },
+      { num: 131, title: "Six Skips, No Ripples", file: "131-six-skips-no-ripples.svg" },
+      { num: 130, title: "Four Feet on the Water and Still in a Hurry", file: "130-four-feet-on-the-water-and-still-in-a-hurry.svg" },
+      { num: 129, title: "Tight Wound", file: "129-tight-wound.svg" },
+      { num: 128, title: "Rings from Nothing", file: "128-rings-from-nothing.svg" },
+      { num: 127, title: "Six Stones, Counts Scratched In", file: "127-six-stones-counts-scratched-in.svg" },
+      { num: 126, title: "Nine Legs, Four Feet Short of a Proper Crab", file: "126-nine-legs-four-feet-short-of-a-proper-crab.svg" },
+      { num: 125, title: "Twenty-Six Stones, Light Pencil", file: "125-twenty-six-stones-light-pencil.svg" },
+      { num: 124, title: "The Circle from Above, a Number Inked on Each Stone", file: "124-the-circle-from-above-a-number-inked-on-each-sto.svg" },
+      { num: 122, title: "Newt and the Quarter Crossword", file: "122-newt-and-the-quarter-crossword.svg" },
+      { num: 121, title: "Draw the Directory and Mark Where the Three Door", file: "121-draw-the-directory-and-mark-where-the-three-door.svg" },
+      { num: 61, title: "(untitled 061)", file: "061" },
+      { num: 56, title: "Thirteenth Strike and the Cylinder's New Pins", file: "056-thirteenth-strike-and-the-cylinder-s-new-pins.svg" },
+      { num: 54, title: "Thirteenth Strike and the Cylinder's New Pins", file: "054-thirteenth-strike-and-the-cylinder-s-new-pins.svg" },
+      { num: 53, title: "Thirteenth Strike and the Cylinder's New Pins", file: "053-thirteenth-strike-and-the-cylinder-s-new-pins.svg" },
+      { num: 36, title: "Lens View of the Knob's Crack Map", file: "036-lens-view-of-the-knob-s-crack-map.svg" },
+      { num: 32, title: "Porcelain Knob Crack Pattern", file: "032-porcelain-knob-crack-pattern.svg" },
+      { num: 29, title: "Punched Strip, Three and Seven Drift After Four Hours", file: "029-punched-strip-three-and-seven-drift-after-four-h.svg" },
+      { num: 26, title: "Striker in the Absent Keeper's Place", file: "026-striker-in-the-absent-keeper-s-place.svg" },
+      { num: 23, title: "The Gap Between Striker and Key 7", file: "023-the-gap-between-striker-and-key-7.svg" },
+      { num: 21, title: "Striker and Key with the Missing Lock Between", file: "021-striker-and-key-with-the-missing-lock-between.svg" },
+      { num: 18, title: "Punched Strip on Thirteen Hours", file: "018-punched-strip-on-thirteen-hours.svg" },
+      { num: 8, title: "Punched Strip, First Pass", file: "008-punched-strip-first-pass.svg" },
+      { num: 6, title: "Deadbeat from Memory, Asymmetric", file: "006-deadbeat-from-memory-asymmetric.svg" },
+      { num: 3, title: "Escapement at Third Wind", file: "003-escapement-at-third-wind.svg" }
+    ];
+
+    const grid = document.getElementById('grid');
+    const base = '../made/drawings/';
+
+    drawings.forEach(d => {
+      const a = document.createElement('a');
+      a.href = base + d.file;
+      a.target = '_blank';
+      a.className = 'item';
+      a.innerHTML = `
+        <img src="${base + d.file}" alt="${d.title}" loading="lazy">
+        <div class="info">
+          <div class="title">${d.num}. ${d.title}</div>
+          <div class="meta">${d.file}</div>
+        </div>
+      `;
+      grid.appendChild(a);
+    });
+  </script>
+</body>
+</html>
